@@ -9,4 +9,4 @@ database = mysql.connector.connect(
 cursorObject = database.cursor()
 cursorObject.execute("CREATE DATABASE IF NOT EXISTS basicCRM")
 
-print("Database created successfully") 
+print("Database created successfully")
