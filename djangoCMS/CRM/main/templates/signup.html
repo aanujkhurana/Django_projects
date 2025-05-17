@@ -2,51 +2,30 @@
 <div
   class="container d-flex justify-content-center align-items-center min-vh-100"
 >
-  <div class="col-md-6 col-lg-4 md-auto">
-    <div class="card shadow-lg border-0 rounded-4">
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-lg border-0 rounded-4 w-100">
       <div class="card-body p-4">
         <h3 class="card-title text-center mb-4">Signup</h3>
+
         <form method="POST">
-          {% csrf_token %}
-
-          <p>{% if messages %} {% for message in messages %}</p>
-          {% if message.tags == 'error' %}
-          <div class="alert alert-danger" role="alert">{{ message }}</div>
-          {% else %}
-          <div class="alert alert-success" role="alert">{{ message }}</div>
-          {% endif %} {% endfor %} {% endif %}
-
-          <div class="mb-3">
-            <label for="name" class="form-label">User Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              name="name"
-              required
-              placeholder="Enter your user name"
-            />
+          {% csrf_token %} {% if form.errors %}
+          <div class="alert alert-danger" role="alert">
+            {% for field in form %} {% for error in field.errors %}
+            <div>{{ error }}</div>
+            {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+            <div>{{ error }}</div>
+            {% endfor %}
           </div>
+          {% endif %} {{ form.as_p }}
 
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              name="password"
-              required
-              placeholder="Enter your password"
-            />
-          </div>
-
-          <div class="d-grid">
+          <div class="d-grid mt-3">
             <button type="submit" class="btn btn-primary rounded-pill">
               Signup
             </button>
           </div>
-          <p class="text-center text-muted mt-3">
-            <a href="{% url 'index' %}">Login</a>
+
+          <p class="text-center text-muted mt-3 mb-0">
+            Already have an account? <a href="{% url 'index' %}">Login</a>
           </p>
         </form>
       </div>
