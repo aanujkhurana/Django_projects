@@ -7,3 +7,7 @@ def list(request):
 
 def text(request):
     return HttpResponse("hello")
+
+def home(request):
+    return render(request, 'home.html')
+
