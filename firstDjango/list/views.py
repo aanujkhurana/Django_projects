@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from .models import TodoItem
 
 # Create your views here.
 def list(request):
@@ -11,3 +12,6 @@ def text(request):
 def home(request):
     return render(request, 'home.html')
 
+def todo(request):
+    items = TodoItem.objects.all()
+    return render(request, 'todo.html', {'items': items})
