@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block content %} {% if user.is_authenticated %}
+<h1>Welcome, {{ user.username }}!</h1>
+<p><a href="{% url 'logout' %}">Logout</a></p>
+{% else %}
+<div
+  class="container d-flex justify-content-center align-items-center min-vh-100"
+>
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-lg border-0 rounded-4">
+      <div class="card-body p-4">
+        <h3 class="card-title text-center mb-4">Login</h3>
+        <form method="POST" action="{% url 'index' %}">
+          {% csrf_token %}
+
+          <p>{% if messages %} {% for message in messages %}</p>
+          {% if message.tags == 'error' %}
+          <div class="alert alert-danger" role="alert">{{ message }}</div>
+          {% else %}
+          <div class="alert alert-success" role="alert">{{ message }}</div>
+          {% endif %} {% endfor %} {% endif %}
+
+          <div class="mb-3">
+            <label for="name" class="form-label">User Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              required
+              placeholder="Enter your user name"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary rounded-pill">
+              Login
+            </button>
+          </div>
+          <p class="text-center text-muted mt-3">
+            <a href="{% url 'logout' %}">Forgot Password?</a>
+          </p>
+          <p class="text-center text-muted mt-3">
+            <a href="{% url 'index' %}">Signup</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %} {% endblock %}
