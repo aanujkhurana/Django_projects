@@ -2,9 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .form import SignUpForm
+from .models import Record
 
 # Create your views here.
 def index(request):
+    records = Record.objects.all()
+    
     if request.method == 'POST':
         username = request.POST['name']
         password = request.POST['password']
@@ -20,7 +23,7 @@ def index(request):
             messages.error(request, 'Invalid username or password.')
             return redirect('index')
     else:
-        return render(request, 'index.html')
+        return render(request, 'index.html', {'records': records})
 # def login_user(request):
 #     pass
 
