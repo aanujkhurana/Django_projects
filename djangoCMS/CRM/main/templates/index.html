@@ -1,8 +1,55 @@
 {% extends "base.html" %} {% block content %} {% if user.is_authenticated %}
-<h1>Records</h1>
-{% for record in records %} 
-{{ record.firstname }} {{record.lastname }} 
-{% endfor %} {% else %}
+<div class="container mt-5">
+  <h1 class="mb-4">Records</h1>
+
+  {% if records %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Created At</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in records %}
+          <tr>
+              
+                <td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td>
+                <td>{{ record.created_at|date:"Y-m-d H:i" }}</td>
+                <td>{{ record.firstname }}</td>
+                <td>{{ record.lastname }}</td>
+                <td>{{ record.email }}</td>
+                <td>{{ record.phone }}</td>
+                <td>{{ record.city }}</td>
+                <td>{{ record.state }}</td>
+                <td>{{ record.country }}</td>
+                <td>
+                  <span class="badge 
+                    {% if record.status == 'new' %} bg-secondary
+                    {% elif record.status == 'in_progress' %} bg-warning text-dark
+                    {% elif record.status == 'resolved' %} bg-success
+                    {% endif %}">
+                    {{ record.get_status_display }}
+                  </span>
+                </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>No records found.</p>
+  {% endif %}
+{% else %}
 <div
   class="container d-flex justify-content-center align-items-center min-vh-100"
 >

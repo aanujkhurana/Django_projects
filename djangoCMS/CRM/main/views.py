@@ -7,7 +7,6 @@ from .models import Record
 # Create your views here.
 def index(request):
     records = Record.objects.all()
-    
     if request.method == 'POST':
         username = request.POST['name']
         password = request.POST['password']
@@ -50,3 +49,11 @@ def signup(request):
     
     return render(request, 'signup.html', {'form': form})
     
+
+def record(request, pk):
+    if request.user.is_authenticated:
+        customer_record = Record.objects.get(id=pk)
+        return render(request, 'customer_record.html', {'customer_record': customer_record})
+    else:
+        messages.error(request, 'You must be logged in to view this page.')
+        return redirect('index')
