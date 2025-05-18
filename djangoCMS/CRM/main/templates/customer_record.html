@@ -1,72 +1,55 @@
-{% extends 'base.html' %} {% block content %}
-
-<div class="container mt-5">
-  <h1 class="text-center mb-4">Record Details</h1>
-
-  <div
-    class="card shadow-lg border-0 rounded-4 mx-auto"
-    style="max-width: 600px"
-  >
-    <div class="card-body">
-      <h5 class="card-title">
-        {{ customer_record.firstname }} {{ customer_record.lastname }}
-      </h5>
-      <h6 class="card-subtitle mb-2 text-muted">{{ customer_record.email }}</h6>
-
-      <p class="card-text mb-1">
-        <strong>Phone:</strong> {{ customer_record.phone }}
-      </p>
-      <p class="card-text mb-1">
-        <strong>Address:</strong> {{ customer_record.address }}
-      </p>
-      <p class="card-text mb-1">
-        <strong>City:</strong> {{ customer_record.city }}
-      </p>
-      <p class="card-text mb-1">
-        <strong>State:</strong> {{ customer_record.state }}
-      </p>
-      <p class="card-text mb-1">
-        <strong>Country:</strong> {{ customer_record.country }}
-      </p>
-      <p class="card-text mb-1">
-        <strong>Zip Code:</strong> {{ customer_record.zip_code }}
-      </p>
-      <p class="card-text mb-1">
-        <strong>Status:</strong>
-        <span
-          class="badge {% if customer_record.status == 'new' %} bg-secondary {% elif customer_record.status == 'in_progress' %} bg-warning text-dark {% elif customer_record.status == 'resolved' %} bg-success {% endif %}"
-        >
-          {{ customer_record.get_status_display }}
-        </span>
-      </p>
-      <p class="card-text">
-        <strong>Message:</strong> {{ customer_record.message }}
-      </p>
-
-      {% if customer_record.notes %}
-      <p class="card-text">
-        <strong>Notes:</strong> {{ customer_record.notes }}
-      </p>
-      {% endif %}
-
-      <p class="text-muted small mt-3">
-        Created At: {{ customer_record.created_at|date:"Y-m-d H:i" }}
-      </p>
-
-      <div class="d-flex justify-content-between mt-4">
-        <a href="{% url 'index' %}" class="btn btn-secondary">← Back</a>
-        <div>
-          <a href="" class="btn btn-primary me-2">Edit</a>
-          <a
-            href="{% url 'delete_record' customer_record.id %}"
-            class="btn btn-danger"
-            onclick="return confirm('Are you sure you want to delete this record?');"
-            >Delete</a
-          >
+{% extends "base.html" %}
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Record Details</h1>
+    <div class="card shadow-lg border-0 rounded-4 mx-auto w-50">
+      <div class="card-body">
+        <h5 class="card-title">{{ customer_record.firstname }} {{ customer_record.lastname }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ customer_record.email }}</h6>
+        <p class="card-text mb-1">
+          <strong>Phone:</strong> {{ customer_record.phone }}
+        </p>
+        <p class="card-text mb-1">
+          <strong>Address:</strong> {{ customer_record.address }}
+        </p>
+        <p class="card-text mb-1">
+          <strong>City:</strong> {{ customer_record.city }}
+        </p>
+        <p class="card-text mb-1">
+          <strong>State:</strong> {{ customer_record.state }}
+        </p>
+        <p class="card-text mb-1">
+          <strong>Country:</strong> {{ customer_record.country }}
+        </p>
+        <p class="card-text mb-1">
+          <strong>Zip Code:</strong> {{ customer_record.zip_code }}
+        </p>
+        <p class="card-text mb-1">
+          <strong>Status:</strong>
+          <span class="badge {% if customer_record.status == 'new' %} bg-secondary {% elif customer_record.status == 'in_progress' %} bg-warning text-dark {% elif customer_record.status == 'resolved' %} bg-success {% endif %}">
+            {{ customer_record.get_status_display }}
+          </span>
+        </p>
+        <p class="card-text">
+          <strong>Message:</strong> {{ customer_record.message }}
+        </p>
+        {% if customer_record.notes %}
+          <p class="card-text">
+            <strong>Notes:</strong> {{ customer_record.notes }}
+          </p>
+        {% endif %}
+        <p class="text-muted small mt-3">Created At: {{ customer_record.created_at|date:"Y-m-d H:i" }}</p>
+        <div class="d-flex justify-content-between mt-4">
+          <a href="{% url 'index' %}" class="btn btn-secondary">← Back</a>
+          <div>
+            <a href="{% url 'edit_record' customer_record.id %}"
+               class="btn btn-primary me-2">Edit</a>
+            <a href="{% url 'delete_record' customer_record.id %}"
+               class="btn btn-danger"
+               onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
 {% endblock content %}

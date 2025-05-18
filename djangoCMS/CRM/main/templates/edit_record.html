@@ -4,7 +4,7 @@
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-body p-5">
-                    <h2 class="text-center mb-4 fw-bold text-primary">Add New Record</h2>
+                    <h2 class="text-center mb-4 fw-bold text-primary">Edit Record</h2>
                     {% if form.errors %}
                         <div class="alert alert-danger" role="alert">
                             {% for field in form %}
@@ -27,7 +27,7 @@
                             </div>
                         {% endfor %}
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-success rounded-pill">+ Add Record</button>
+                            <button type="submit" class="btn btn-success rounded-pill">Update</button>
                         </div>
                         <div class="text-center mt-3">
                             <a href="{% url 'index' %}" class="text-decoration-none text-muted">← Back to Records</a>

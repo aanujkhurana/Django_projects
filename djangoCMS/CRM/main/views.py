@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .form import SignUpForm
+from .form import SignUpForm, AddRecordForm
 from .models import Record
 
 # Create your views here.
@@ -34,7 +34,7 @@ def logout_user(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST or None)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -69,4 +69,36 @@ def delete_record(request, pk):
         return redirect('index')
     
 def add_record(request):
-    return render(request, 'add_record.html')
+    form = AddRecordForm(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Record added successfully!')
+                return redirect('index')
+            else:  
+                return render(request, 'add_record.html', {'form': form})
+        else:
+            form = AddRecordForm()
+            return render(request, 'add_record.html', {'form': form})
+    else:
+        messages.error(request, 'You must be logged in to add a record.')
+        return redirect('index')
+    
+def edit_record(request, pk):
+    if request.user.is_authenticated:
+        customer_record = Record.objects.get(id=pk)
+        form = AddRecordForm(request.POST or None, instance=customer_record)
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Record updated successfully!')
+                return redirect('index')
+            else:
+                return render(request, 'edit_record.html', {'form': form})
+        else:
+            form = AddRecordForm(instance=customer_record)
+            return render(request, 'edit_record.html', {'form': form})
+    else:
+        messages.error(request, 'You must be logged in to edit a record.')
+        return redirect('index')
