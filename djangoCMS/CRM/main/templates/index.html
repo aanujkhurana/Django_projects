@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == 'error' %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+      {% else %}
+        <div class="alert alert-success" role="alert">{{ message }}</div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
   {% if user.is_authenticated %}
     <div class="container mt-5">
       <h1 class="mb-4">Records</h1>
@@ -68,15 +77,6 @@
               <h3 class="card-title text-center mb-4">Login</h3>
               <form method="post" action="{% url 'index' %}">
                 {% csrf_token %}
-                {% if messages %}
-                  {% for message in messages %}
-                    {% if message.tags == 'error' %}
-                      <div class="alert alert-danger" role="alert">{{ message }}</div>
-                    {% else %}
-                      <div class="alert alert-success" role="alert">{{ message }}</div>
-                    {% endif %}
-                  {% endfor %}
-                {% endif %}
                 <div class="mb-3">
                   <label for="name" class="form-label">User Name</label>
                   <input type="text"

@@ -6,7 +6,8 @@ from .models import Record
 
 # Create your views here.
 def index(request):
-    records = Record.objects.all()
+    search = request.GET.get('search') if request.GET.get('search') != None else ''
+    records = Record.objects.filter(firstname__icontains=search)
     if request.method == 'POST':
         username = request.POST['name']
         password = request.POST['password']
