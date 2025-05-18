@@ -67,3 +67,6 @@ def delete_record(request, pk):
     else:
         messages.error(request, 'You must be logged in to delete a record.')
         return redirect('index')
+    
+def add_record(request):
+    return render(request, 'add_record.html')
