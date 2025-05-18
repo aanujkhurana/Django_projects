@@ -3,108 +3,115 @@
   <h1 class="mb-4">Records</h1>
 
   {% if records %}
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped table-hover align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Created At</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Country</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for record in records %}
-          <tr>
-              
-                <td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td>
-                <td>{{ record.created_at|date:"Y-m-d H:i" }}</td>
-                <td>{{ record.firstname }}</td>
-                <td>{{ record.lastname }}</td>
-                <td>{{ record.email }}</td>
-                <td>{{ record.phone }}</td>
-                <td>{{ record.city }}</td>
-                <td>{{ record.state }}</td>
-                <td>{{ record.country }}</td>
-                <td>
-                  <span class="badge 
-                    {% if record.status == 'new' %} bg-secondary
-                    {% elif record.status == 'in_progress' %} bg-warning text-dark
-                    {% elif record.status == 'resolved' %} bg-success
-                    {% endif %}">
-                    {{ record.get_status_display }}
-                  </span>
-                </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Country</th>
+          <th>Status</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in records %}
+        <tr>
+          <td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td>
+          <td>
+            <a href="{% url 'record' record.id %}">{{ record.firstname }}</a>
+          </td>
+          <td>
+            <a href="{% url 'record' record.id %}">{{ record.lastname }}</a>
+          </td>
+          <td><a href="{% url 'record' record.id %}">{{ record.email }}</a></td>
+          <td><a href="{% url 'record' record.id %}">{{ record.phone }}</a></td>
+          <td><a href="{% url 'record' record.id %}">{{ record.city }}</a></td>
+          <td><a href="{% url 'record' record.id %}">{{ record.state }}</a></td>
+          <td>
+            <a href="{% url 'record' record.id %}">{{ record.country }}</a>
+          </td>
+          <td>
+            <span
+              class="badge {% if record.status == 'new' %} bg-secondary {% elif record.status == 'in_progress' %} bg-warning text-dark {% elif record.status == 'resolved' %} bg-success {% endif %}"
+            >
+              {{ record.get_status_display }}
+            </span>
+          </td>
+          <td>
+            <a href="{% url 'record' record.id %}"
+              >{{ record.created_at|date:"Y-m-d H:i" }}</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% else %}
-    <p>No records found.</p>
-  {% endif %}
-{% else %}
-<div
-  class="container d-flex justify-content-center align-items-center min-vh-100"
->
-  <div class="col-md-6 col-lg-4">
-    <div class="card shadow-lg border-0 rounded-4">
-      <div class="card-body p-4">
-        <h3 class="card-title text-center mb-4">Login</h3>
-        <form method="POST" action="{% url 'index' %}">
-          {% csrf_token %}
+  <p>No records found.</p>
+  {% endif %} {% else %}
+  <div
+    class="container d-flex justify-content-center align-items-center min-vh-100"
+  >
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+          <h3 class="card-title text-center mb-4">Login</h3>
+          <form method="POST" action="{% url 'index' %}">
+            {% csrf_token %}
 
-          <p>{% if messages %} {% for message in messages %}</p>
-          {% if message.tags == 'error' %}
-          <div class="alert alert-danger" role="alert">{{ message }}</div>
-          {% else %}
-          <div class="alert alert-success" role="alert">{{ message }}</div>
-          {% endif %} {% endfor %} {% endif %}
+            <p>{% if messages %} {% for message in messages %}</p>
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+            {% else %}
+            <div class="alert alert-success" role="alert">{{ message }}</div>
+            {% endif %} {% endfor %} {% endif %}
 
-          <div class="mb-3">
-            <label for="name" class="form-label">User Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              name="name"
-              required
-              placeholder="Enter your user name"
-            />
-          </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">User Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                required
+                placeholder="Enter your user name"
+              />
+            </div>
 
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              name="password"
-              required
-              placeholder="Enter your password"
-            />
-          </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                required
+                placeholder="Enter your password"
+              />
+            </div>
 
-          <div class="d-grid">
-            <button type="submit" class="btn btn-primary rounded-pill">
-              Login
-            </button>
-          </div>
-          <p class="text-center text-muted mt-3">
-            <a href="{% url 'logout' %}">Forgot Password?</a>
-          </p>
-          <p class="text-center text-muted mt-3">
-            <a href="{% url 'signup' %}">Signup</a>
-          </p>
-        </form>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary rounded-pill">
+                Login
+              </button>
+            </div>
+            <p class="text-center text-muted mt-3">
+              <a href="{% url 'logout' %}">Forgot Password?</a>
+            </p>
+            <p class="text-center text-muted mt-3">
+              <a href="{% url 'signup' %}">Signup</a>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   </div>
+  {% endif %} {% endblock content %}
 </div>
-{% endif %} {% endblock content %}

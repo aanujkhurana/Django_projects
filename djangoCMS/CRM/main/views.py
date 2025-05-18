@@ -57,3 +57,13 @@ def record(request, pk):
     else:
         messages.error(request, 'You must be logged in to view this page.')
         return redirect('index')
+    
+def delete_record(request, pk):
+    if request.user.is_authenticated:
+        customer_record = Record.objects.get(id=pk)
+        customer_record.delete()
+        messages.success(request, 'Record deleted successfully!')
+        return redirect('index')
+    else:
+        messages.error(request, 'You must be logged in to delete a record.')
+        return redirect('index')
